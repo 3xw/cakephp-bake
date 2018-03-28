@@ -1,7 +1,7 @@
 {
   "name": "3xw/cakephp-bake",
   "description": "3xw CakePHP template skeleton",
-  "type": "project",
+  "type": "cakephp-plugin",
   "require": {
     "php": ">=5.6"
   },
