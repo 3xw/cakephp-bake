@@ -1,6 +1,6 @@
 # 3xw CakePHP Template Skeleton
 
-This plugin allows you bake well : )
+This plugin allows you to bake well : )
 
 ## Installation
 
