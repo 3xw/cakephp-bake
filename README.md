@@ -13,3 +13,4 @@ The recommended way to install composer packages is:
 Load it in your config/boostrap.php
 
 	Plugin::load('Trois/Bake');
+	Configure::write('Bake.theme', 'Trois/Bake');	

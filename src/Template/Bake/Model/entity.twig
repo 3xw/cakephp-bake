@@ -42,7 +42,12 @@ class {{ name }} extends Entity
      *
      * @var array
      */
-    protected $_accessible = [{{ Bake.stringifyList(accessible, {'quotes': false})|raw }}];
+    protected $_accessible = [
+      '*' => true,
+      {%- for key in primaryKey %}
+        {{"\n"}}      '{{ key }}' => false,
+      {% endfor %}
+    ];
 {% endif %}
 
 {%- if hidden %}
