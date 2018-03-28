@@ -1,0 +1,22 @@
+{
+  "name": "3xw/cakephp-bake",
+  "description": "3xw CakePHP template skeleton",
+  "type": "project",
+  "require": {
+    "php": ">=5.6",
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Trois\\Bake\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Trois\\Bake\\Test\\": "tests",
+      "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+    }
+  }
+}
