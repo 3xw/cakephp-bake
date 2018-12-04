@@ -44,7 +44,22 @@
 {% for field in fields if field not in primaryKey %}
   {%- if keyFields[field] %}
     {%- set fieldData = Bake.columnData(field, schema) %}
-      {%- if fieldData.null %}
+    {%- if field == 'attachment_id' %}
+            <?= $this->Attachment->input('attachment_id',[
+              'label' => __('Media'),
+              'types' =>['image/jpeg','image/png'],
+              'atags' => [],
+              'cols' => 'col-xs-6 col-md-6 col-lg-4',
+              'maxquantity' => 1,
+              'restrictions' => [
+                Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
+                Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                ],
+                'attachments' => []
+              ]
+            );?>
+      {{- "\n" }}
+      {%- elseif fieldData.null %}
             <?= $this->Form->control('{{ field }}', ['options' => ${{ keyFields[field] }}, 'empty' => true, 'class'=>'form-control']);?>
       {{- "\n" }}
       {%- else %}
@@ -54,7 +69,10 @@
     {%- elseif field not in ['created', 'modified', 'updated'] %}
       {%- set fieldData = Bake.columnData(field, schema) %}
       {%- if fieldData.type in ['date', 'datetime', 'time'] %}
-            <?= $this->Form->control('{{ field }}', ['empty' => true]);?>
+            <?= $this->Form->control('{{ field }}', ['class'=>'form-control']);?>
+      {{- "\n" }}
+      {%- elseif fieldData.type in ['integer', 'float'] %}
+            <?= $this->Form->control('{{ field }}', ['class'=>'form-control']);?>
       {{- "\n" }}
       {%- endif %}
     {%- endif %}
