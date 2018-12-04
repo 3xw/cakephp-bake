@@ -8,9 +8,14 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-          <?= $this->Html->link('<i class="material-icons">list</i> '.__('List'),['action'=>'index'], ['class' => '','escape'=>false]) ?>
+          <?= '<i class="material-icons">mode_edit</i> '.__('{{ action|humanize }}')?>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <?= $this->Html->link('<i class="material-icons">list</i> '.__('List'),['action'=>'index'], ['class' => '','escape'=>false]) ?>
       </li>
     </ul>
   </div>
@@ -19,51 +24,54 @@
 <div class="row no-gutters">
   <div class="col-11 mx-auto">
     <div class="card">
+      <?= $this->Form->create(${{ singularVar }}) ?>
       <div class="card-header">
         <h2><?= __('{{ action|humanize }} {{ singularHumanName }}') ?></h2>
       </div>
+      <hr>
       <div class="card-body">
-        <?= $this->Form->create(${{ singularVar }}) ?>
-        <?php
-        {% for field in fields if field not in primaryKey %}
-            {%- if keyFields[field] %}
-                {%- set fieldData = Bake.columnData(field, schema) %}
-                {%- if fieldData.null %}
-                    echo $this->Form->control('{{ field }}', ['options' => ${{ keyFields[field] }}, 'empty' => true, 'class'=>'form-control']);
-                    {{- "\n" }}
-                {%- else %}
-                    echo $this->Form->control('{{ field }}', ['options' => ${{ keyFields[field] }}, 'class'=>'form-control']);
-                    {{- "\n" }}
-                {%- endif %}
-            {%- elseif field not in ['created', 'modified', 'updated'] %}
-                {%- set fieldData = Bake.columnData(field, schema) %}
-                {%- if fieldData.type in ['date', 'datetime', 'time'] and fieldData.null %}
-                    echo $this->Form->control('{{ field }}', ['empty' => true, 'class'=>'form-control']);
-                    {{- "\n" }}
-                {%- else %}
-                    echo $this->Form->control('{{ field }}',['class'=>'form-control']);
+        <div class="row">
+          <div class="col-sm-8">
+{% for field in fields if field %}
+{%- set fieldData = Bake.columnData(field, schema) %}
+{%- if fieldData.type in ['text', 'string']%}
+            <?= $this->Form->control('{{ field }}',['class'=>'form-control']);?>
             {{- "\n" }}
-                {%- endif %}
-            {%- endif %}
-        {%- endfor %}
-
-        {%- if associations.BelongsToMany %}
-            {%- for assocName, assocData in associations.BelongsToMany %}
-                    echo $this->Form->control('{{ assocData.property }}._ids', ['options' => ${{ assocData.variable }}, 'class'=>'form-control']);
-            {{- "\n" }}
-            {%- endfor %}
-        {% endif %}
-
-      ?>
-      <div class="text-right">
-        <div class="btn-group">
-          <?= $this->Html->link(__('Cancel'), $referer, ['class' => 'btn btn-danger btn-fill']) ?>
-          <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-info btn-fill']) ?>
+{%- endif %}
+{%- endfor %}
+          </div>
+          <div class="col-sm-4">
+{% for field in fields if field not in primaryKey %}
+  {%- if keyFields[field] %}
+    {%- set fieldData = Bake.columnData(field, schema) %}
+      {%- if fieldData.null %}
+            <?= $this->Form->control('{{ field }}', ['options' => ${{ keyFields[field] }}, 'empty' => true, 'class'=>'form-control']);?>
+      {{- "\n" }}
+      {%- else %}
+            <?= $this->Form->control('{{ field }}', ['options' => ${{ keyFields[field] }}, 'class'=>'form-control']);?>
+      {{- "\n" }}
+      {%- endif %}
+    {%- elseif field not in ['created', 'modified', 'updated'] %}
+      {%- set fieldData = Bake.columnData(field, schema) %}
+      {%- if fieldData.type in ['date', 'datetime', 'time'] %}
+            <?= $this->Form->control('{{ field }}', ['empty' => true]);?>
+      {{- "\n" }}
+      {%- endif %}
+    {%- endif %}
+{%- endfor %}
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="card-footer">
+        <div class="text-right">
+          <div class="btn-group">
+            <?= $this->Html->link(__('Cancel'), $referer, ['class' => 'btn btn-danger btn-fill']) ?>
+            <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-info btn-fill']) ?>
+          </div>
         </div>
       </div>
       <?= $this->Form->end() ?>
-      </div>
-
   </div>
 </div>
 </div>
