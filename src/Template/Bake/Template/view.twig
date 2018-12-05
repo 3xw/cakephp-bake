@@ -43,24 +43,22 @@
     </ul>
   </div>
 </nav>
-<div class="utils--spacer-default"></div>
+<div class="utils--spacer-semi"></div>
 <div class="row no-gutters">
   <div class="col-8 mx-auto">
     <div class="card">
-      <div class="card-header">
-        <h2><?= h(${{ singularVar }}->{{ displayField }}) ?></h2>
-      </div>
       <!-- CONTENT -->
       <div class="card-body">
+        <h2><?= h(${{ singularVar }}->{{ displayField }}) ?></h2>
 {% if groupedFields.text %}
 {% for field in groupedFields.text %}
-        <label class="label-default"><?= __('{{ field|humanize }}') ?></label>
+        <label><?= __('{{ field|humanize }}') ?></label>
         <?= ${{ singularVar }}->{{ field }}; ?>
 {% endfor %}
 {% endif %}
 {% for field in groupedFields['string'] %}
 {% if field not in displayField %}
-        <label class="label-default"><?= __('{{ field|humanize }}') ?></label>
+        <label><?= __('{{ field|humanize }}') ?></label>
         <?= h(${{ singularVar }}->{{ field }}) ?>
 {% endif %}
 {% endfor %}
