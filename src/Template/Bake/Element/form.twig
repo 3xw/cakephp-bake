@@ -7,12 +7,7 @@
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-          <?= '<i class="material-icons">mode_edit</i> '.__('{{ action|humanize }}')?>
-      </li>
-    </ul>
+  <div class="navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <?= $this->Html->link('<i class="material-icons">list</i> '.__('List'),['action'=>'index'], ['class' => '','escape'=>false]) ?>
@@ -25,6 +20,7 @@
   <div class="col-11 mx-auto">
     <div class="card">
       <?= $this->Form->create(${{ singularVar }}) ?>
+      <?php $this->Form->setTemplates(['dateWidget' => {{'"{{day}}{{month}}{{year}}{{hour}}{{minute}}"'}}]);?>
       <div class="card-header">
         <h2><?= __('{{ action|humanize }} {{ singularHumanName }}') ?></h2>
       </div>
@@ -38,6 +34,38 @@
             {{- "\n" }}
 {%- endif %}
 {%- endfor %}
+{%- if associations.BelongsToMany %}
+    {%- for assocName, assocData in associations.BelongsToMany %}
+    {%- if assocData.property == 'attachments' %}
+            <?= $this->Attachment->input('Attachments',[
+              'label' => __('Medias'),
+              'types' =>[
+                'application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                'image/jpeg',
+                'image/png',
+                'embed/youtube',
+                'embed/vimeo'
+              ],
+              'atags' => [],
+              'cols' => 'col-xs-6 col-md-6 col-lg-4',
+              'maxquantity' => -1,
+              'restrictions' => [
+                Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
+                Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
+                ],
+              'attachments' => [] // edit -> (${{singularVar}}->attachments) ? ${{singularVar}}->attachments : []
+              ]
+            );?>
+{{- "\n" }}
+{%- else %}
+  echo $this->Form->control('{{ assocData.property }}._ids', ['options' => ${{ assocData.variable }}, 'class'=>'form-control']);
+{%- endif %}
+    {%- endfor %}
+{% endif %}
           </div>
           <div class="col-sm-4">
 {% for field in fields if field not in primaryKey %}
@@ -54,7 +82,7 @@
                 Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
                 Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                 ],
-                'attachments' => []
+                'attachments' => [] // edit -> (${{singularVar}}->attachment) ? [${{singularVar}}->attachment] : []
               ]
             );?>
       {{- "\n" }}
@@ -70,7 +98,7 @@
       {%- if fieldData.type in ['date', 'datetime', 'time'] %}
             <?= $this->Form->control('{{ field }}', ['class'=>'form-control']);?>
       {{- "\n" }}
-      {%- elseif fieldData.type in ['integer', 'float'] %}
+      {%- elseif fieldData.type in ['integer', 'float', 'boolean'] %}
             <?= $this->Form->control('{{ field }}', ['class'=>'form-control']);?>
       {{- "\n" }}
       {%- endif %}

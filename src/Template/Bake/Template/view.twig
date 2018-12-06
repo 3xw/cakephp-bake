@@ -29,15 +29,14 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <?= '<i class="material-icons">visibility</i> '.__('{{ action|humanize }}')?>
-      </li>
-    </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
         <?= $this->Html->link('<i class="material-icons">list</i> '.__('List'),['action'=>'index'], ['class' => '','escape'=>false]) ?>
+      </li>
+      <li class="nav-item">
         <?= $this->Html->link('<i class="material-icons">mode_edit</i> '.__('Edit'),['action'=>'edit', {{ pK|raw }}], ['class' => '','escape'=>false]) ?>
+      </li>
+      <li class="nav-item">
         <?= $this->Html->link('<i class="material-icons">delete</i> '.__('Delete'),['action'=>'delete',{{ pK|raw }}], ['class' => '','escape'=>false, 'confirm' => __('Are you sure you want to delete # {0}?', {{ pK|raw }})]) ?>
       </li>
     </ul>
@@ -47,6 +46,12 @@
 <div class="row no-gutters">
   <div class="col-8 mx-auto">
     <div class="card">
+      <!-- pic -->
+      <?php if (${{singularVar}}->attachment): ?>
+        <?php if (${{singularVar}}->attachment->type == 'image'): ?>
+          <?= $this->Attachment->image(['image' => ${{singularVar}}->attachment->path, 'profile' => ${{singularVar}}->attachment->profile, 'width' => '1200px',  'cropratio' => '16:8'], ['class' => 'card-img-top']) ?>
+        <?php endif; ?>
+      <?php endif; ?>
       <!-- CONTENT -->
       <div class="card-body">
         <h2><?= h(${{ singularVar }}->{{ displayField }}) ?></h2>

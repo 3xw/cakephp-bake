@@ -22,12 +22,15 @@
     public function index()
     {
 {% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
-{% if belongsTo %}
-        $this->paginate = [
-            'contain' => [{{ Bake.stringifyList(belongsTo, {'indent': false})|raw }}]
-        ];
-{% endif %}
-        ${{ pluralName }} = $this->paginate($this->{{ currentModelName }});
-
+        $query = $this->{{ currentModelName }}->find('search', ['search' => $this->request->query])->contain([{{ Bake.stringifyList(belongsTo, {'indent': false})|raw }}]);
+        if (isset($this->request->params['?'])) {
+          if (!$query->count()) {
+            $this->Flash->error(__('No result.'));
+          }else{
+            $this->Flash->success($query->count()." ".__('result(s).'));
+          }
+          $this->set('q',$this->request->params['?']['q']);
+        }
+        ${{ pluralName }} = $this->paginate($query);
         $this->set(compact('{{ pluralName }}'));
     }
