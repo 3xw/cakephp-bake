@@ -62,7 +62,8 @@
             );?>
 {{- "\n" }}
 {%- else %}
-  echo $this->Form->control('{{ assocData.property }}._ids', ['options' => ${{ assocData.variable }}, 'class'=>'form-control']);
+            <?= $this->Form->control('{{ assocData.property }}._ids', ['options' => ${{ assocData.variable }}, 'class'=>'form-control']);?>
+{{- "\n" }}
 {%- endif %}
     {%- endfor %}
 {% endif %}
