@@ -10,6 +10,6 @@ class Plugin extends BasePlugin
   public function bootstrap(PluginApplicationInterface $app)
   {
     Configure::write('Bake.theme', 'Trois/Bake');
-    $app->addPlugin('friendsofcake/search');
+    $app->addPlugin('Search');
   }
 }
