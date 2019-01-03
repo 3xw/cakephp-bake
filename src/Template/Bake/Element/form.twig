@@ -35,10 +35,10 @@
 {%- endif %}
 {%- if fieldData.type == 'text'%}
             <?= $this->element('Trois/Tinymce.tinymce',[
-              'field' =>'{{ field }}',
-              'value' => {% if strpos(action, 'add') is same as(false) %} ${{singularVar}}->{{ field }}, {% else %} '',{% endif %}
+              'field' => '{{ field }}',
+              'value' =>{% if strpos(action, 'add') is same as(false) %} ${{singularVar}}->{{ field }}{% else %} ''{% endif %},
               'init' => [
-                'label' => __('{{ ucfirst(field) }}')
+                'label' => __('{{ field |capitalize }}')
               ]
             ]) ?>
             {{- "\n" }}
@@ -67,9 +67,8 @@
                 Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
                 Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                 ],
-              'attachments' => {% if strpos(action, 'add') is same as(false) %} (${{singularVar}}->attachments) ? ${{singularVar}}->attachments : [] {% else %} [],{% endif %}
-              ]
-            );?>
+              'attachments' =>{% if strpos(action, 'add') is same as(false) %} (${{singularVar}}->attachments)? ${{singularVar}}->attachments : []{% else %} []{% endif %},
+            ]);?>
 {{- "\n" }}
 {%- else %}
             <?= $this->Form->control('{{ assocData.property }}._ids', ['options' => ${{ assocData.variable }}, 'class'=>'form-control']);?>
@@ -93,7 +92,7 @@
                 Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
                 Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                 ],
-                'attachments' => {% if strpos(action, 'add') is same as(false) %} (${{singularVar}}->attachment) ? [${{singularVar}}->attachment] : [] {% else %} [],{% endif %}
+                'attachments' =>{% if strpos(action, 'add') is same as(false) %} (${{singularVar}}->attachment)? [${{singularVar}}->attachment] : []{% else %} []{% endif %},
               ]
             );?>
       {{- "\n" }}
