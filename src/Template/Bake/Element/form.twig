@@ -1,6 +1,6 @@
 {#
 /**
- * template 3xW v.3.5.5
+ * template 3xW v.3.7.0
 #}
 {% set fields = Bake.filterFields(fields, schema, modelObject) %}
 <nav class="navbar navbar-expand-lg">
@@ -29,8 +29,18 @@
           <div class="col-sm-8">
 {% for field in fields if field %}
 {%- set fieldData = Bake.columnData(field, schema) %}
-{%- if fieldData.type in ['text', 'string']%}
+{%- if fieldData.type == 'string'%}
             <?= $this->Form->control('{{ field }}',['class'=>'form-control']);?>
+            {{- "\n" }}
+{%- endif %}
+{%- if fieldData.type == 'text'%}
+            <?= $this->element('Trois/Tinymce.tinymce',[
+              'field' =>'{{ field }}',
+              'value' => {% if strpos(action, 'add') is same as(false) %} ${{singularVar}}->{{ field }}, {% else %} '',{% endif %}
+              'init' => [
+                'label' => __('{{ ucfirst(field) }}')
+              ]
+            ]) ?>
             {{- "\n" }}
 {%- endif %}
 {%- endfor %}
@@ -57,7 +67,7 @@
                 Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
                 Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                 ],
-              'attachments' => [] // edit -> (${{singularVar}}->attachments) ? ${{singularVar}}->attachments : []
+              'attachments' => {% if strpos(action, 'add') is same as(false) %} (${{singularVar}}->attachments) ? ${{singularVar}}->attachments : [] {% else %} [],{% endif %}
               ]
             );?>
 {{- "\n" }}
@@ -83,7 +93,7 @@
                 Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
                 Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                 ],
-                'attachments' => [] // edit -> (${{singularVar}}->attachment) ? [${{singularVar}}->attachment] : []
+                'attachments' => {% if strpos(action, 'add') is same as(false) %} (${{singularVar}}->attachment) ? [${{singularVar}}->attachment] : [] {% else %} [],{% endif %}
               ]
             );?>
       {{- "\n" }}
