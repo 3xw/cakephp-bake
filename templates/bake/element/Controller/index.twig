@@ -23,13 +23,13 @@
     {
 {% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
         $query = $this->{{ currentModelName }}->find('search', ['search' => $this->request->query])->contain([{{ Bake.stringifyList(belongsTo, {'indent': false})|raw }}]);
-        if (isset($this->request->params['?']['q'])) {
+        if (!empty($this->request->getQuery('q'))) {
           if (!$query->count()) {
             $this->Flash->error(__('No result.'));
           }else{
             $this->Flash->success($query->count()." ".__('result(s).'));
           }
-          $this->set('q',$this->request->params['?']['q']);
+          $this->set('q',$this->request->getQuery('q'));
         }
         ${{ pluralName }} = $this->paginate($query);
         $this->set(compact('{{ pluralName }}'));
