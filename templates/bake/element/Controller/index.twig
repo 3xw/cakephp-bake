@@ -22,7 +22,7 @@
     public function index()
     {
 {% set belongsTo = Bake.aliasExtractor(modelObj, 'BelongsTo') %}
-        $query = $this->{{ currentModelName }}->find('search', ['search' => $this->request->query])->contain([{{ Bake.stringifyList(belongsTo, {'indent': false})|raw }}]);
+        $query = $this->{{ currentModelName }}->find('search', ['search' => $this->request->getQuery()])->contain([{{ Bake.stringifyList(belongsTo, {'indent': false})|raw }}]);
         if (!empty($this->request->getQuery('q'))) {
           if (!$query->count()) {
             $this->Flash->error(__('No result.'));

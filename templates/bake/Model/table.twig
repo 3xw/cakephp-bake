@@ -15,6 +15,8 @@
 #}
 {% set annotations = DocBlock.buildTableAnnotations(associations, associationInfo, behaviors, entity, namespace) %}
 <?php
+declare(strict_types=1);
+
 namespace {{ namespace }}\Model\Table;
 
 {% set uses = ['use Cake\\ORM\\Query;', 'use Cake\\ORM\\RulesChecker;', 'use Cake\\ORM\\Table;', 'use Cake\\Validation\\Validator;'] %}
@@ -30,7 +32,7 @@ class {{ name }}Table extends Table
      * @param array $config The configuration for the Table.
      * @return void
      */
-    public function initialize(array $config)
+    public function initialize(array $config): void
     {
         parent::initialize($config);
 
@@ -95,7 +97,7 @@ class {{ name }}Table extends Table
      * @param \Cake\Validation\Validator $validator Validator instance.
      * @return \Cake\Validation\Validator
      */
-    public function validationDefault(Validator $validator)
+    public function validationDefault(Validator $validator): Validator
     {
 {% for field, rules in validation %}
 {% set validationMethods = Bake.getValidationMethods(field, rules) %}
@@ -123,7 +125,7 @@ class {{ name }}Table extends Table
      * @param \Cake\ORM\RulesChecker $rules The rules object to be modified.
      * @return \Cake\ORM\RulesChecker
      */
-    public function buildRules(RulesChecker $rules)
+    public function buildRules(RulesChecker $rules): RulesChecker
     {
 {% for field, rule in rulesChecker %}
         $rules->add($rules->{{ rule.name }}(['{{ field }}']{{ (rule.extra is defined and rule.extra ? (", '#{rule.extra}'") : '')|raw }}));
@@ -140,7 +142,7 @@ class {{ name }}Table extends Table
      *
      * @return string
      */
-    public static function defaultConnectionName()
+    public static function defaultConnectionName(): string
     {
         return '{{ connection }}';
     }
