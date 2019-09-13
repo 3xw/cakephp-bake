@@ -36,7 +36,7 @@
 {%- if fieldData.type == 'text'%}
             <?= $this->element('Trois/Tinymce.tinymce',[
               'field' => '{{ field }}',
-              'value' =>{% if strpos(action, 'add') is same as(false) %} ${{singularVar}}->{{ field }}{% else %} ''{% endif %},
+              'value' =>{% if 'add' not in action %} ${{singularVar}}->{{ field }}{% else %} ''{% endif %},
               'init' => [
                 'label' => __('{{ field |capitalize }}')
               ]
@@ -67,7 +67,7 @@
                 Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
                 Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                 ],
-              'attachments' =>{% if strpos(action, 'add') is same as(false) %} (${{singularVar}}->attachments)? ${{singularVar}}->attachments : []{% else %} []{% endif %},
+              'attachments' =>{% if 'add' not in action %} (${{singularVar}}->attachments)? ${{singularVar}}->attachments : []{% else %} []{% endif %},
             ]);?>
 {{- "\n" }}
 {%- else %}
@@ -92,7 +92,7 @@
                 Attachment\View\Helper\AttachmentHelper::TAG_RESTRICTED,
                 Attachment\View\Helper\AttachmentHelper::TYPES_RESTRICTED
                 ],
-                'attachments' =>{% if strpos(action, 'add') is same as(false) %} (${{singularVar}}->attachment)? [${{singularVar}}->attachment] : []{% else %} []{% endif %},
+                'attachments' =>{% if 'add' not in action %} (${{singularVar}}->attachment)? [${{singularVar}}->attachment] : []{% else %} []{% endif %},
               ]
             );?>
       {{- "\n" }}
