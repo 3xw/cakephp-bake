@@ -32,5 +32,4 @@
           $this->set('q',$this->request->getQuery('q'));
         }
         ${{ pluralName }} = $this->paginate($query);
-        $this->set(compact('{{ pluralName }}'));
     }
