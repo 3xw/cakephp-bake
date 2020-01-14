@@ -27,7 +27,8 @@
       <div class="card-body">
         <div class="row">
           <div class="col-sm-8">
-{% for field in fields if field %}
+{% for field in fields %}
+{% if field %}
 {%- set fieldData = Bake.columnData(field, schema) %}
 {%- if fieldData.type == 'string'%}
             <?= $this->Form->control('{{ field }}',['class'=>'form-control']);?>
@@ -42,6 +43,7 @@
               ]
             ]) ?>
             {{- "\n" }}
+{%- endif %}
 {%- endif %}
 {%- endfor %}
 {%- if associations.BelongsToMany %}
@@ -78,7 +80,8 @@
 {% endif %}
           </div>
           <div class="col-sm-4">
-{% for field in fields if field not in primaryKey %}
+{% for field in fields %}
+{% if field not in primaryKey %}
   {%- if keyFields[field] %}
     {%- set fieldData = Bake.columnData(field, schema) %}
     {%- if field == 'attachment_id' %}
@@ -113,6 +116,7 @@
       {{- "\n" }}
       {%- endif %}
     {%- endif %}
+{%- endif %}
 {%- endfor %}
           </div>
         </div>
