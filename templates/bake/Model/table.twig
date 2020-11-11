@@ -61,7 +61,7 @@ class {{ name }}Table extends Table
             'comparison' => 'LIKE',
             'wildcardAny' => '*',
             'wildcardOne' => '?',
-            'field' => ['{{ displayField }}']
+            'fields' => ['{{ displayField }}']
         ]);
 {%- if behaviors %}
 
