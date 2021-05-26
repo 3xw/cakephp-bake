@@ -21,7 +21,7 @@
   </div>
 </nav>
 <div class="utils--spacer-semi"></div>
-<div class="row no-gutters">
+<div class="row no-gutters g-0">
   <div class="col-11 mx-auto ">
     <!-- LIST ELEMENT -->
     <div class="card">
@@ -78,7 +78,7 @@
 {% endif %}
 {% endfor %}
 {% set pk = '$' ~ singularVar ~ '->' ~ primaryKey[0] %}
-                <td data-title="actions" class="actions" class="text-right">
+                <td data-title="actions" class="actions" class="text-right text-end">
                   <div class="btn-group">
                     <?= $this->Html->link('<i class="material-icons">visibility</i>', ['action' => 'view', {{ pk|raw }}],['class' => 'btn btn-xs btn-simple btn-info btn-icon edit','escape' => false]) ?>
                     <?= $this->Html->link('<i class="material-icons">mode_edit</i>', ['action' => 'edit', {{ pk|raw }}], ['class' => 'btn btn-xs btn-simple btn-warning btn-icon edit','escape' => false]) ?>
@@ -94,7 +94,7 @@
       <!-- END CONTEMT -->
       <!-- START FOOTER -->
       <div class="card-footer">
-        <div class="row no-gutters">
+        <div class="row no-gutters g-0">
           <div class="col-6">
             <?= $this->Paginator->counter(__('Page {{ '{{' }}page{{ '}}' }} of {{ '{{' }}pages{{ '}}' }}, showing {{ '{{' }}current{{ '}}' }} record(s) out of {{ '{{' }}count{{ '}}' }} total')) ?>
           </div>
